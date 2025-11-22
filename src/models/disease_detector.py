@@ -22,3 +22,27 @@ def create_disease_model(num_classes, image_size):
     
     model = Model(inputs=base_model.input, outputs=predictions)
     return model, base_model
+import numpy as np
+from tensorflow.keras.models import load_model
+from PIL import Image
+
+def load_trained_model(model_path):
+    '''Load pre-trained disease detection model'''
+    return load_model(model_path)
+
+def preprocess_image(image_path, image_size):
+    '''Preprocess image for prediction'''
+    img = Image.open(image_path).convert('RGB')
+    img = img.resize((image_size, image_size))
+    img_array = np.array(img) / 255.0
+    return np.expand_dims(img_array, axis=0)
+
+def predict_disease(model, image_array, class_names):
+    '''Get disease prediction with confidence'''
+    predictions = model.predict(image_array)[0]
+    top_idx = np.argmax(predictions)
+    return {
+        'disease': class_names[top_idx],
+        'confidence': float(predictions[top_idx]),
+        'all_predictions': dict(zip(class_names, predictions))
+    }
