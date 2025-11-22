@@ -5,47 +5,33 @@ from config.constants import DATASET_PATH
 def get_dataset_structure():
     '''Explore PlantVillage dataset structure'''
     classes = []
-    for class_dir in Path(DATASET_PATH).iterdir():
+    dataset_path = Path(DATASET_PATH)
+    
+    if not dataset_path.exists():
+        print(f'⚠️ Dataset not found at {DATASET_PATH}')
+        return []
+    
+    for class_dir in dataset_path.iterdir():
         if class_dir.is_dir():
             count = len(list(class_dir.glob('*.jpg')))
-            classes.append({'class': class_dir.name, 'images': count})
-    return classes
+            classes.append({
+                'class': class_dir.name, 
+                'images': count
+            })
+    
+    return sorted(classes, key=lambda x: x['images'], reverse=True)
 
 def validate_dataset():
     '''Check dataset integrity'''
     if not Path(DATASET_PATH).exists():
-        raise FileNotFoundError('PlantVillage dataset not found!')
-    print(f'✅ Dataset found: {DATASET_PATH}')
+        raise FileNotFoundError(f'PlantVillage dataset not found at {DATASET_PATH}')
+    
+    structure = get_dataset_structure()
+    print(f'✅ Dataset found: {len(structure)} classes detected')
     return True
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-def create_data_generators(train_dir, val_dir, image_size, batch_size):
-    '''Create augmented data generators'''
-    train_datagen = ImageDataGenerator(
-        rescale=1./255,
-        rotation_range=30,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest'
-    )
-    
-    val_datagen = ImageDataGenerator(rescale=1./255)
-    
-    train_gen = train_datagen.flow_from_directory(
-        train_dir,
-        target_size=(image_size, image_size),
-        batch_size=batch_size,
-        class_mode='categorical'
-    )
-    
-    val_gen = val_datagen.flow_from_directory(
-        val_dir,
-        target_size=(image_size, image_size),
-        batch_size=batch_size,
-        class_mode='categorical'
-    )
-    
-    return train_gen, val_gen
+if __name__ == '__main__':
+    validate_dataset()
+    classes = get_dataset_structure()
+    for cls in classes[:5]:
+        print(f\"{cls['class']}: {cls['images']} images\")
