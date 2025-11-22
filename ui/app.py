@@ -446,3 +446,6 @@ app.launch(share=True, debug=True)# Add this to ui/app.py after imports (just a 
 
 # Tab navigation optimization
 # TODO: Preserve state across tab switches
+
+# Keyboard shortcuts for power users
+# TODO: Implement keyboard navigation
