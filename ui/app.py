@@ -455,3 +455,6 @@ app.launch(share=True, debug=True)# Add this to ui/app.py after imports (just a 
 
 # Dark mode is default, could add light mode option
 # TODO: Implement theme switching
+
+# All backend functions connected to UI
+# TODO: Add error boundaries
