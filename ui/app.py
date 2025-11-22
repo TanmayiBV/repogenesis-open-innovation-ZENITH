@@ -452,3 +452,6 @@ app.launch(share=True, debug=True)# Add this to ui/app.py after imports (just a 
 
 # Accessibility improvements
 # TODO: Add ARIA labels
+
+# Dark mode is default, could add light mode option
+# TODO: Implement theme switching
