@@ -431,3 +431,6 @@ app.launch(share=True, debug=True)# Add this to ui/app.py after imports (just a 
 # Add this to ui/app.py after imports (just a comment to trigger change)
 # Loading indicators for better UX
 # TODO: Implement loading spinners for async operations
+
+# Error handling UI components
+# TODO: Add user-friendly error messages
