@@ -437,3 +437,6 @@ app.launch(share=True, debug=True)# Add this to ui/app.py after imports (just a 
 
 # Success notification system
 # TODO: Add toast notifications for successful actions
+
+# Mobile responsive design enhancements
+# TODO: Test on mobile devices
