@@ -22,3 +22,14 @@ def create_disease_model(num_classes, image_size):
     
     model = Model(inputs=base_model.input, outputs=predictions)
     return model, base_model
+
+from tensorflow.keras.optimizers import Adam
+
+def compile_model(model, learning_rate=0.0001):
+    '''Compile model with Adam optimizer'''
+    model.compile(
+        optimizer=Adam(learning_rate=learning_rate),
+        loss='categorical_crossentropy',
+        metrics=['accuracy', 'top_k_categorical_accuracy']
+    )
+    return model
