@@ -17,3 +17,35 @@ def validate_dataset():
         raise FileNotFoundError('PlantVillage dataset not found!')
     print(f'✅ Dataset found: {DATASET_PATH}')
     return True
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+def create_data_generators(train_dir, val_dir, image_size, batch_size):
+    '''Create augmented data generators'''
+    train_datagen = ImageDataGenerator(
+        rescale=1./255,
+        rotation_range=30,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True,
+        fill_mode='nearest'
+    )
+    
+    val_datagen = ImageDataGenerator(rescale=1./255)
+    
+    train_gen = train_datagen.flow_from_directory(
+        train_dir,
+        target_size=(image_size, image_size),
+        batch_size=batch_size,
+        class_mode='categorical'
+    )
+    
+    val_gen = val_datagen.flow_from_directory(
+        val_dir,
+        target_size=(image_size, image_size),
+        batch_size=batch_size,
+        class_mode='categorical'
+    )
+    
+    return train_gen, val_gen
