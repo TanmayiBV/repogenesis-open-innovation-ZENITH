@@ -458,3 +458,6 @@ app.launch(share=True, debug=True)# Add this to ui/app.py after imports (just a 
 
 # All backend functions connected to UI
 # TODO: Add error boundaries
+
+# Auto-save profile on changes
+# TODO: Implement debounced auto-save
