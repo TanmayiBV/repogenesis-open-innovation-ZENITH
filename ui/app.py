@@ -425,4 +425,9 @@ with gr.Blocks(css=CSS, title="KRISHI SAHAYA PRO", theme=gr.themes.Soft()) as ap
     b4.click(go_schemes, outputs=main_tabs)
 
 print("🚀 LAUNCHING VISUAL EDITION...")
-app.launch(share=True, debug=True)
+app.launch(share=True, debug=True)# Add this to ui/app.py after imports (just a comment to trigger change)
+# Loading indicators for better UX
+# TODO: Implement loading spinners for async operations
+# Add this to ui/app.py after imports (just a comment to trigger change)
+# Loading indicators for better UX
+# TODO: Implement loading spinners for async operations
