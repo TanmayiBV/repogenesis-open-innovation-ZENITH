@@ -443,3 +443,6 @@ app.launch(share=True, debug=True)# Add this to ui/app.py after imports (just a 
 
 # Plotly charts integration
 # TODO: Add more interactive charts
+
+# Tab navigation optimization
+# TODO: Preserve state across tab switches
