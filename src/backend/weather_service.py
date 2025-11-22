@@ -1,6 +1,8 @@
 ﻿import requests
+from src.backend.cache_manager import cache_with_ttl
 from config.api_config import WEATHER_API_KEY, WEATHER_BASE_URL, DISTRICT_COORDS
 
+@cache_with_ttl(ttl_seconds=600)  # Cache for 10 minutes
 def get_weather_forecast(district):
     '''Fetch current weather for Karnataka district'''
     try:
@@ -48,3 +50,4 @@ if __name__ == '__main__':
     # Test weather service
     weather = get_weather_forecast('Mandya')
     print(weather)
+
