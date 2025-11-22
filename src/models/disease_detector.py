@@ -1,35 +1,22 @@
 ﻿from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, BatchNormalization
+from config.constants import IMAGE_SIZE
 
-def create_disease_model(num_classes, image_size):
-    '''Build MobileNetV2-based disease detection model'''
+def create_base_model(input_shape=(IMAGE_SIZE, IMAGE_SIZE, 3)):
+    '''Create MobileNetV2 base model with ImageNet weights'''
     base_model = MobileNetV2(
-        input_shape=(image_size, image_size, 3),
+        input_shape=input_shape,
         include_top=False,
         weights='imagenet'
     )
     
-    # Freeze base model
+    # Freeze all layers initially
     base_model.trainable = False
     
-    # Custom head
-    x = base_model.output
-    x = GlobalAveragePooling2D()(x)
-    x = Dense(512, activation='relu')(x)
-    x = Dropout(0.5)(x)
-    predictions = Dense(num_classes, activation='softmax')(x)
-    
-    model = Model(inputs=base_model.input, outputs=predictions)
-    return model, base_model
+    print(f'✅ Base model loaded: {len(base_model.layers)} layers')
+    return base_model
 
-from tensorflow.keras.optimizers import Adam
-
-def compile_model(model, learning_rate=0.0001):
-    '''Compile model with Adam optimizer'''
-    model.compile(
-        optimizer=Adam(learning_rate=learning_rate),
-        loss='categorical_crossentropy',
-        metrics=['accuracy', 'top_k_categorical_accuracy']
-    )
-    return model
+if __name__ == '__main__':
+    model = create_base_model()
+    model.summary()
